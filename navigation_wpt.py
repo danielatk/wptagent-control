@@ -2,28 +2,33 @@
 
 import json
 import time
+import sys
+import os
+import requests
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.keys import Keys
-import sys
-import requests
 
 arquivo_log = '/home/localuser/wpt_control/log_wpt'
+arquivo_wptserver = '/home/localuser/wpt_control/wptserver_url'
 
 
 def main():
     args = sys.argv
 
     if (len(args) != 5) :
-        print('inform url, adblock use (True or False), resolution type (1 or 2) and raspberry pi mac')
+        print('inform url, adblock use (True or False), resolution type (1 or 2) and wptagent mac')
         return
 
     # first argument is the url to be navigated to
     # second argument is if adblock should be used
     # third argument is the viewport resolution (1 or 2)
-    # fourth argument is the target raspberry pi mac
+    # fourth argument is the target wptagent mac
+
+    with open(arquivo_wptserver) as file:
+        wptserver = file.readline().strip()
 
     # opções do chrome
     chrome_options = Options()
@@ -34,7 +39,7 @@ def main():
     chrome_options.add_argument("--start-maximized")
     chrome_options.headless = True
     driver = webdriver.Chrome(options = chrome_options)
-    driver.get('http://ibiza.land.ufrj.br')
+    driver.get(wptserver)
 
     time.sleep(15)
 
@@ -56,7 +61,7 @@ def main():
     except NoSuchElementException:
         driver.quit()
         with open(arquivo_log, 'a') as file :
-            file.write("{} | navigation WPT -> raspberry pi {} not found\n".format(int(time.time()), args[4]))
+            file.write("{} | navigation WPT -> wptagent {} not found\n".format(int(time.time()), args[4]))
             file.write("--------------------\n")
         return
 
@@ -116,15 +121,18 @@ def main():
             counter += 1
             pass
 
-    r = requests.get('http://ibiza.land.ufrj.br/jsonResult.php?test={}&pretty=1'.format(run_id))
+    r = requests.get('{}/jsonResult.php?test={}&pretty=1'.format(wptserver, run_id))
 
     domain = args[1]
 
     if 'watch?v=' in args[1]:
         index = args[1].find('watch?v=')
         domain = args[1][index+8:]
+
+    if not os.path.exists('/home/localuser/wpt_control/wpt_data'):
+        os.makedirs('/home/localuser/wpt_control/wpt_data')
     
-    filename = '/media/storage/st1/raspberry_pi_data/wpt_data/{}_{}_{}_wpt.json'.format(domain, args[4], timestamp)
+    filename = '/home/localuser/wpt_control/wpt_data/{}_{}_{}_wpt.json'.format(domain, args[4], timestamp)
 
     json_result = r.json()
 

@@ -6,11 +6,6 @@ navigationFilePath="/home/localuser/wpt_control/navigation_wpt.py"
 logFile="/home/localuser/wpt_control/log_wpt"
 ongoingFile="/home/localuser/wpt_control/ongoing"
 
-# run dummy Xserver in background
-# export DISPLAY=:2
-# Xorg -noreset +extension GLX +extension RANDR +extension RENDER -logfile /dev/null -config ./xorg.conf :2 &
-# Xorg -noreset +extension GLX +extension RANDR +extension RENDER -logfile ./log_xorg -config ./xorg.conf :2 &
-
 # before beginning sleep a random ammount of time
 # (from 0 to 30 seconds in milliseconds granularity)
 # this is to avoid beginning at the same time as experiments in the RPi

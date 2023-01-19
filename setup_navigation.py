@@ -7,8 +7,8 @@ import os
 
 top_100_brasil = '/home/localuser/wpt_control/top_100_brasil.csv'
 top_100 = '/home/localuser/wpt_control/top-100'
-raspberry_pis_file = '/home/localuser/wpt_control/raspberry_pis'
-top_raspberry_pis_file = '/home/localuser/wpt_control/top_raspberry_pis'
+wptagents_file = '/home/localuser/wpt_control/wptagents'
+local_wptagents_file = '/home/localuser/wpt_control/local_wptagents'
 
 
 def writeToItemsFile(item_list, items_file) :
@@ -40,9 +40,9 @@ def main():
     if random.random() < 0.5 :
         adblock_usado = True
 
-    resType = 1
+    res_type = 1
     if random.random() >= 0.5 :
-        resType = 2
+        res_type = 2
 
     # choose domain to perform experiment
     if os.path.isfile(top_100):
@@ -61,24 +61,24 @@ def main():
 
     writeToItemsFile(domain_list, top_100)
 
-    # choose raspberry pi
-    if os.path.isfile(top_raspberry_pis_file):
-        rpi_list = readFromItemsFile(top_raspberry_pis_file)
+    # choose wptagent
+    if os.path.isfile(local_wptagents_file):
+        wptagents = readFromItemsFile(local_wptagents_file)
     else:
-        rpi_list = []
+        wptagents = []
 
-    if (len(rpi_list) == 0) :
-        # reset raspberry pi list
-        with open(raspberry_pis_file, 'r') as f :
-            rpi_list = f.readlines()
-            rpi_list = [rpi.rstrip() for rpi in rpi_list]
-        writeToItemsFile(rpi_list, top_raspberry_pis_file)
+    if (len(wptagents) == 0) :
+        # reset wptagent list
+        with open(wptagents_file, 'r') as f :
+            wptagents = f.readlines()
+            wptagents = [wptagent.rstrip() for wptagent in wptagents]
+        writeToItemsFile(wptagents, local_wptagents_file)
 
-    rpi, rpi_list = chooseAtRandom(rpi_list)
+    wptagent, wptagents = chooseAtRandom(wptagents)
 
-    writeToItemsFile(rpi_list, top_raspberry_pis_file)
+    writeToItemsFile(wptagents, local_wptagents_file)
 
-    print('{} {} {} {}'.format(domain, adblock_usado, resType, rpi))
+    print('{} {} {} {}'.format(domain, adblock_usado, res_type, wptagent))
 
 
 if __name__ == "__main__":
