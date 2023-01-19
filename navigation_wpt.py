@@ -11,9 +11,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.keys import Keys
 
-arquivo_log = '/home/localuser/wpt_control/log_wpt'
-arquivo_wptserver = '/home/localuser/wpt_control/wptserver_url'
-
+arquivo_log = './log_wpt'
+arquivo_wptserver = './wptserver_url'
 
 def main():
     args = sys.argv
@@ -129,10 +128,10 @@ def main():
         index = args[1].find('watch?v=')
         domain = args[1][index+8:]
 
-    if not os.path.exists('/home/localuser/wpt_control/wpt_data'):
-        os.makedirs('/home/localuser/wpt_control/wpt_data')
+    if not os.path.exists('./wpt_data'):
+        os.makedirs('./wpt_data')
     
-    filename = '/home/localuser/wpt_control/wpt_data/{}_{}_{}_wpt.json'.format(domain, args[4], timestamp)
+    filename = './wpt_data/{}_{}_{}_wpt.json'.format(domain, args[4], timestamp)
 
     json_result = r.json()
 
