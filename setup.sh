@@ -13,6 +13,8 @@ done
 
 echo $WPT_SERVER > ~/wptagent-control/wptserver_url
 
-# TODO(danielatk): chromedriver setup
+sudo apt -y install python python3 python3-pip
+pip install chromedriver
+virtualenv ~/wptagent-control/env -p python3
 
 echo "Setup is complete. Do not forget to fill in wptagents file with all the agents' IDs."

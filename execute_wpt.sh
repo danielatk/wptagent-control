@@ -10,7 +10,7 @@ ongoingFile="~/wptagent-control/ongoing"
 # (from 0 to 30 seconds in milliseconds granularity)
 # this is to avoid beginning at the same time as experiments in the RPi
 
-source "~/wptagent-control/wpt_control_env/bin/activate"
+source "~/wptagent-control/env/bin/activate"
 
 randomMs=$[ $RANDOM % 30000 + 1 ]
 ms_unit=0.001
