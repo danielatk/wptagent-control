@@ -1,16 +1,16 @@
 #!/bin/bash
 
-setupNavigationFilePath="./setup_navigation.py"
-setupReproductionFilePath="./setup_reproduction.py"
-navigationFilePath="./navigation_wpt.py"
-logFile="./log_wpt"
-ongoingFile="./ongoing"
+setupNavigationFilePath="~/wptagent-control/setup_navigation.py"
+setupReproductionFilePath="~/wptagent-control/setup_reproduction.py"
+navigationFilePath="~/wptagent-control/navigation_wpt.py"
+logFile="~/wptagent-control/log_wpt"
+ongoingFile="~/wptagent-control/ongoing"
 
 # before beginning sleep a random ammount of time
 # (from 0 to 30 seconds in milliseconds granularity)
 # this is to avoid beginning at the same time as experiments in the RPi
 
-source "./wpt_control_env/bin/activate"
+source "~/wptagent-control/wpt_control_env/bin/activate"
 
 randomMs=$[ $RANDOM % 30000 + 1 ]
 ms_unit=0.001
@@ -26,13 +26,13 @@ else
     args="$(python3 $setupReproductionFilePath)"
 fi
 
-echo "$args" > ./tmp
-raspberryPi=$(sed 's/.* //' ./tmp)
+echo "$args" > ~/wptagent-control/tmp
+wptagent=$(sed 's/.* //' ~/wptagent-control/tmp)
 echo "$(date +%s) | execute WPT -> args: $args" >> $logFile
-if [[ -f ./status/${raspberryPi}_ongoing_client ]]; then
-    ongoing="$(cat ./status/${raspberryPi}_ongoing_client)"
+if [[ -f ~/wptagent-control/status/${wptagent}_ongoing_client ]]; then
+    ongoing="$(cat ~/wptagent-control/status/${wptagent}_ongoing_client)"
     # if there is an ongoing experiment do not continue
-    [ "$ongoing" = "1" ] && echo "$(date +%s) | execute WPT -> already ongoing experiment on $raspberryPi" >> $logFile && echo "--------------------" >> $logFile && rm ./tmp && exit
+    [ "$ongoing" = "1" ] && echo "$(date +%s) | execute WPT -> already ongoing experiment on $wptagent" >> $logFile && echo "--------------------" >> $logFile && rm ~/wptagent-control/tmp && exit
 fi
 
 if [ -f $ongoingFile ]; then
@@ -40,25 +40,25 @@ if [ -f $ongoingFile ]; then
 else
         ongoing="0"
 fi
-[ "$ongoing" = "1" ] && echo "$(date +%s) | execute WPT -> already ongoing WPT experiment" >> $logFile && echo "-------------------" >> $logFile && rm ./tmp && exit
+[ "$ongoing" = "1" ] && echo "$(date +%s) | execute WPT -> already ongoing WPT experiment" >> $logFile && echo "-------------------" >> $logFile && rm ~/wptagent-control/tmp && exit
 
 echo "1" > $ongoingFile
 
 #removing everything before and including first space
-argsToFile=$(sed 's/[^ ]* //' ./tmp)
-echo "$argsToFile" > ./tmp
+argsToFile=$(sed 's/[^ ]* //' ~/wptagent-control/tmp)
+echo "$argsToFile" > ~/wptagent-control/tmp
 #removing everything after and including last space
-argsToFile=$(sed 's/2 .*/2/' ./tmp)
-echo "$argsToFile" > ./tmp
-argsToFile=$(sed 's/1 .*/1/' ./tmp)
-rm ./tmp
-echo "wpt $argsToFile" > ./status/$raspberryPi
-echo "1" > ./status/${raspberryPi}_ongoing
+argsToFile=$(sed 's/2 .*/2/' ~/wptagent-control/tmp)
+echo "$argsToFile" > ~/wptagent-control/tmp
+argsToFile=$(sed 's/1 .*/1/' ~/wptagent-control/tmp)
+rm ~/wptagent-control/tmp
+echo "wpt $argsToFile" > ~/wptagent-control/status/$wptagent
+echo "1" > ~/wptagent-control/status/${wptagent}_ongoing
 
 echo "$(date +%s) | execute WPT -> navigation time ($args)" >> $logFile
 python3 $navigationFilePath $args 2>> $logFile
 
 echo "--------------------" >> $logFile
 
-echo "0" > ./status/${raspberryPi}_ongoing
+echo "0" > ~/wptagent-control/status/${wptagent}_ongoing
 echo "0" > $ongoingFile
