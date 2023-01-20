@@ -1,6 +1,6 @@
 # wptagent-control
 
-This is the server-side part of a wptagent automation project. This should be deployed  at a server where wptagent and other automation data should be stored at.
+This is the server-side part of a wptagent automation project. This should be deployed  at a server where wptagent and other automation data should be stored at and works for any debian-based system.
 
 The client-side part of this project is located in https://github.com/danielatk/wptagent-automation.
 
