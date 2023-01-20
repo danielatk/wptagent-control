@@ -4,10 +4,10 @@ import random
 import os
 
 
-videos_file = './videos'
-top_100_videos_file = './top_100_videos'
-wptagents_file = './wptagents'
-local_wptagents_file = './local_wptagents'
+videos_file = '~/wptagent-control/videos'
+top_100_videos_file = '~/wptagent-control/top_100_videos'
+wptagents_file = '~/wptagent-control/wptagents'
+local_wptagents_file = '~/wptagent-control/local_wptagents'
 
 def writeToItemsFile(item_list, items_file) :
     with open(items_file, 'w') as f :

@@ -5,10 +5,10 @@ import pandas as pd
 import os
 
 
-top_100_brasil = './top_100_brasil.csv'
-top_100 = './top-100'
-wptagents_file = './wptagents'
-local_wptagents_file = './local_wptagents'
+top_100_brasil = '~/wptagent-control/top_100_brasil.csv'
+top_100 = '~/wptagent-control/top-100'
+wptagents_file = '~/wptagent-control/wptagents'
+local_wptagents_file = '~/wptagent-control/local_wptagents'
 
 
 def writeToItemsFile(item_list, items_file) :
