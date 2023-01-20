@@ -1,10 +1,14 @@
 # wptagent-control
 
+## Description:
+
 This is the server-side part of a wptagent automation project. This should be deployed  at a server where wptagent and other automation data should be stored at and works for any debian-based system.
 
 The client-side part of this project is located in https://github.com/danielatk/wptagent-automation.
 
 This executes WebPageTest jobs for a provided wptagent list. The jobs include webpage visits and youtube video reproductions. A list of top 100 visited websites in Brazil as well as 147 videos with 4K resolution options are given, but these can easily be customized to your necessities. 
+
+## Deployment:
 
 Download the setup script with the following command:
 `curl https://raw.githubusercontent.com/danielatk/wptagent-control/main/setup.sh`
