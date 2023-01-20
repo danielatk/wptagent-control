@@ -25,4 +25,4 @@ For example, to run a job every 5 minutes execute the following commands:
 `crontab -e` (this opens the cron editor)
 `*/5 * * * * bash ~/wptagent-control/execute_wpt.sh > ~/wptagent-control/crontab_log 2> ~/wptagent-control/crontab_error`
 
-For the agents to communicate effectively a SSH connection should be established in the collection server machine.
+For the agents to communicate effectively an SSH server must be configured in the collection server machine.
