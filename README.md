@@ -9,22 +9,23 @@ It integrates with a client-side part of this project, which is located in https
 ## Deployment:
 
 Download the setup script with the following command:
-`curl https://raw.githubusercontent.com/danielatk/wptagent-control/main/scripts/setup.sh`
+`curl https://raw.githubusercontent.com/danielatk/wptagent-control/main/scripts/first_setup.sh`
 To run the script execute the following command:
-`sh setup.sh`
+`sh first_setup.sh`
 
-Once the setup script has been executed fill in the wptagents file with one agent ID per line. Before doing this please run the setup automation script in the wptagent device, from the client-side project:
+This script simply clones the repository to the `~/` directory. Once that is done fill in the wptagents file with one agent ID per line. Before doing this please run the setup automation script in the wptagent device, from the client-side project:
 ```
-curl https://raw.githubusercontent.com/danielatk/wptagent-automation/main/scripts/setup_wptagent.sh
-sh setup_wptagent.sh
+curl https://raw.githubusercontent.com/danielatk/wptagent-automation/main/scripts/first_setup.sh
+sh first_setup.sh
 ```
 Get the device's MAC address, which is gathered by this script, and add it to the wptagents list as that wptagent's ID.
 After running the script the MAC address will be located in:
 `~/wptagent-automation/mac`
 
-To automate the execution of WPT jobs for each agent in the list, add a cronjob for the `execute_wpt.sh` script.
-For example, to run a job every 5 minutes execute the following commands:
-`crontab -e` (this opens the cron editor)
-`*/5 * * * * bash ~/wptagent-control/scripts/execute_wpt.sh > ~/wptagent-control/crontab_log 2> ~/wptagent-control/crontab_error`
+For the agents to communicate effectively to avoid concurrent tests an SSH server must be configured in the collection server machine. This must be done manually before continuing.
 
-For the agents to communicate effectively to avoid concurrent tests an SSH server must be configured in the collection server machine.
+After doing this download and run the automation script of the server side:
+```
+curl https://raw.githubusercontent.com/danielatk/wptagent-control/main/scripts/automation_setup.sh
+sh automation_setup.sh
+```

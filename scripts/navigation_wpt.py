@@ -3,7 +3,6 @@
 import json
 import time
 import sys
-import os
 import requests
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
@@ -128,9 +127,6 @@ def main():
         index = args[1].find('watch?v=')
         domain = args[1][index+8:]
 
-    if not os.path.exists('~/wptagent-control/wpt_data'):
-        os.makedirs('~/wptagent-control/wpt_data')
-    
     filename = '~/wptagent-control/wpt_data/{}_{}_{}_wpt.json'.format(domain, args[4], timestamp)
 
     json_result = r.json()

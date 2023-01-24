@@ -1,0 +1,18 @@
+{
+  "apps" : [{
+    "name"         : "storeserver",
+    "script"       : "app.js",
+    "instances"    : "1",
+    "exec_mode"    : "cluster_mode",
+    "error_file"   : "~/wptagent-control/logs/storeserver.log",
+    "out_file"     : "~/wptagent-control/logs/storeserver.log",
+    "pid_file"     : "~/wptagent-control/pids/storeserver",
+    "run_as_user"  : "localuser",
+    "run_as_group" : "localuser",
+    "cwd"          : "~/wptagent-control/app",
+    "env": {
+      "NODE_ENV" : "production",
+      "PORT"     : "3100"
+    }
+  }]
+}
