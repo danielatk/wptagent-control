@@ -33,6 +33,8 @@ echo "Installing dependencies and setting up environment"
 
 sudo apt -y install python python3 python3-pip
 pip install chromedriver
+pip install selenium
+pip install pandas
 virtualenv ~/wptagent-control/env -p python3
 
 echo "Initializing node server and WPTagent scheduling"
