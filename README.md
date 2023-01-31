@@ -9,7 +9,7 @@ It integrates with a client-side part of this project, which is located in https
 ## Deployment:
 
 Download the setup script with the following command:
-`curl https://raw.githubusercontent.com/danielatk/wptagent-control/main/scripts/first_setup.sh`
+`curl https://raw.githubusercontent.com/danielatk/wptagent-control/main/scripts/first_setup.sh > first_setup.sh`
 To run the script execute the following command:
 `sh first_setup.sh`
 
@@ -26,6 +26,6 @@ For the agents to communicate effectively to avoid concurrent tests an SSH serve
 
 After doing this download and run the automation script of the server side:
 ```
-curl https://raw.githubusercontent.com/danielatk/wptagent-control/main/scripts/automation_setup.sh
+curl https://raw.githubusercontent.com/danielatk/wptagent-control/main/scripts/automation_setup.sh > automation_setup.sh
 sh automation_setup.sh
 ```
