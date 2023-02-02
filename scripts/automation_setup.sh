@@ -35,6 +35,7 @@ sudo apt -y install python python3 python3-pip python3-virtualenv
 pip3 install chromedriver
 pip3 install selenium
 pip3 install pandas
+pip3 install requests
 virtualenv ~/wptagent-control/env -p python3
 
 echo "Initializing node server and WPTagent scheduling"
