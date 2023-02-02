@@ -31,10 +31,10 @@ sed -i 's/65535/$NODE_PORT/' ~/wptagent-control/upload_server/pserver.py
 
 echo "Installing dependencies and setting up environment"
 
-sudo apt -y install python python3 python3-pip
-pip install chromedriver
-pip install selenium
-pip install pandas
+sudo apt -y install python python3 python3-pip python3-virtualenv
+pip3 install chromedriver
+pip3 install selenium
+pip3 install pandas
 virtualenv ~/wptagent-control/env -p python3
 
 echo "Initializing node server and WPTagent scheduling"
