@@ -26,7 +26,7 @@ else
     args="$(python3 $setupReproductionFilePath)"
 fi
 
-[ -z "$args" ] && echo "$(date +%s) | execute WPT -> setup script output was empty, aborting execution" >> $logFile && echo "--------------------" >> $logFile
+[ -z "$args" ] && echo "$(date +%s) | execute WPT -> setup script output was empty, aborting execution" >> $logFile && echo "--------------------" >> $logFile && exit
 
 echo "$args" > ~/wptagent-control/tmp
 wptagent=$(sed 's/.* //' ~/wptagent-control/tmp)
