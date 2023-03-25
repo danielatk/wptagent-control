@@ -6,8 +6,8 @@ var url = require('url');
 
 var PORT;
 
-if(process.argv.length > 2){
-	PORT = parseInt(process.argv[2]);
+if(process.env.PORT){
+	PORT = process.env.PORT;
 } else {
 	PORT = 3201;
 }

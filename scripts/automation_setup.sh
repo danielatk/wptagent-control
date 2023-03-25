@@ -20,6 +20,7 @@ echo "Setting up directory structure"
 mkdir ~/wptagent-control/wpt_data
 mkdir ~/wptagent-control/ndt_data
 mkdir ~/wptagent-control/other_data
+mkdir ~/wptagent-control/status
 mkdir ~/wptagent-control/logs
 mkdir ~/wptagent-control/pids
 mkdir ~/wptagent-control/tcpdump
@@ -37,14 +38,28 @@ python3 -m pip install selenium
 python3 -m pip install pandas
 python3 -m pip install requests
 virtualenv ~/wptagent-control/env -p python3
+sudo npm install pm2 -g
+echo '{
+  "apps": [{
+    "name": "collection server",
+    "script": "app.js",
+    "log_date_format": "YYYY-MM-DD HH:mm:ss Z",
+    "autorestart": true,
+    "env": {
+      "production": true,
+      "TZ": "America/Sao_Paulo",
+      "PORT": '$NODE_PORT'
+    },
+    "exec_mode": "cluster"
+  }]
+}' > ~/wptagent-control/upload_server/environment.config.json
 
 echo "Initializing node server and WPTagent scheduling"
 
-node ~/wptagent-control/upload_server/app.js $NODE_PORT &
+pm2 start ~/wptagent-control/upload_server/environment.config.json
 
-# making node server initialization run on boot and starting WPTagent scheduling
+# starting WPTagent scheduling
 crontab -l > mycron
-echo "@reboot node ~/wptagent-control/upload_server/app.js $NODE_PORT &"
 echo "*/$EXPERIMENTS_INTERVAL * * * * bash ~/wptagent-control/scripts/execute_wpt.sh > ~/wptagent-control/crontab_log 2> ~/wptagent-control/crontab_error" >> mycron
 crontab mycron
 rm mycron
