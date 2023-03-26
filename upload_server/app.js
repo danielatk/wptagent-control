@@ -3,6 +3,7 @@
 var http = require('http');
 var fs = require('fs');
 var url = require('url');
+const os = require('os');
 
 var PORT;
 
@@ -18,9 +19,7 @@ if(process.argv.length > 3){
     upload_folder = '~/wptagent-control/other_data/';
 }
 
-/*
- * Create uploads folder if it doesn't exist
- */
+upload_folder = upload_folder.replace(/^~($|\/|\\)/, `${os.homedir()}$1`);
 
 const options = {
 	key: fs.readFileSync('key.pem'),
@@ -36,6 +35,8 @@ var server = http.createServer(function(req, res) {
 	 * add public IP to saved string
 	 */
 	var ip_address = req.connection.remoteAddress;
+	console.log(ip_address);
+	console.log(decodeURIComponent(url.parse(req.url).pathname).split('/').slice(-1)[0]);
 
 	var outst = fs.createWriteStream(upload_folder + decodeURIComponent(url.parse(req.url).pathname).split('/').slice(-1)[0]);
 
