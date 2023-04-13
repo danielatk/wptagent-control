@@ -137,6 +137,18 @@ def main():
     with open(filename, 'w') as jsonfile:
         jsonfile.write(json.dumps(json_result))
 
+    r = requests.get('{}/export.php?bodies=1&pretty=1&test={}'.format(wptserver, run_id))
+
+    filename = '/home/localuser/wptagent-control/wpt_data/{}_{}_{}_har.json'.format(domain, args[4], timestamp)
+
+    json_result = r.json()
+
+    json_result['resolution_type'] = int(args[3])
+    json_result['adblock'] = 'true' if args[2] == 'True' else 'false'
+
+    with open(filename, 'w') as jsonfile:
+        jsonfile.write(json.dumps(json_result))
+
     with open(arquivo_log, 'a') as file :
         file.write("{} | navigation WPT -> test data sent successfully\n".format(int(time.time())))
         file.write("--------------------\n")
