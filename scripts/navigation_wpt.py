@@ -71,6 +71,10 @@ def main():
     url_text = driver.find_element('id', 'url')
     url_text.send_keys(args[1])
 
+    video_checkbox = driver.find_element('id', 'videoCheck')
+    if video_checkbox.is_selected():
+        video_checkbox.click()
+
     start_test = driver.find_elements('class name', 'start_test')
     start_test_btn = start_test[len(start_test)-1]
     try:
@@ -132,6 +136,7 @@ def main():
     json_result = r.json()
 
     json_result['resolution_type'] = int(args[3])
+    json_result['video_capture'] = 'false'
     json_result['adblock'] = 'true' if args[2] == 'True' else 'false'
 
     with open(filename, 'w') as jsonfile:
@@ -144,6 +149,7 @@ def main():
     json_result = r.json()
 
     json_result['resolution_type'] = int(args[3])
+    json_result['video_capture'] = 'false'
     json_result['adblock'] = 'true' if args[2] == 'True' else 'false'
 
     with open(filename, 'w') as jsonfile:
