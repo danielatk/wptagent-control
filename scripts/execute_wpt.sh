@@ -30,11 +30,12 @@ fi
 
 echo "$args" > ~/wptagent-control/tmp
 wptagent=$(sed 's/.* //' ~/wptagent-control/tmp)
+rm ~/wptagent-control/tmp
 echo "$(date +%s) | execute WPT -> args: $args" >> $logFile
 if [[ -f ~/wptagent-control/status/${wptagent}_ongoing_client ]]; then
     ongoing="$(cat ~/wptagent-control/status/${wptagent}_ongoing_client)"
     # if there is an ongoing experiment do not continue
-    [ "$ongoing" = "1" ] && echo "$(date +%s) | execute WPT -> already ongoing experiment on $wptagent" >> $logFile && echo "--------------------" >> $logFile && rm ~/wptagent-control/tmp && exit
+    [ "$ongoing" = "1" ] && echo "$(date +%s) | execute WPT -> already ongoing experiment on $wptagent" >> $logFile && echo "--------------------" >> $logFile && exit
 fi
 
 if [ -f $ongoingFile ]; then
@@ -42,18 +43,12 @@ if [ -f $ongoingFile ]; then
 else
         ongoing="0"
 fi
-[ "$ongoing" = "1" ] && echo "$(date +%s) | execute WPT -> already ongoing WPT experiment" >> $logFile && echo "-------------------" >> $logFile && rm ~/wptagent-control/tmp && exit
+[ "$ongoing" = "1" ] && echo "$(date +%s) | execute WPT -> already ongoing WPT experiment" >> $logFile && echo "-------------------" >> $logFile && exit
 
 echo "1" > $ongoingFile
 
-#removing everything before and including first space
-argsToFile=$(sed 's/[^ ]* //' ~/wptagent-control/tmp)
-echo "$argsToFile" > ~/wptagent-control/tmp
 #removing everything after and including last space
-argsToFile=$(sed 's/2 .*/2/' ~/wptagent-control/tmp)
-echo "$argsToFile" > ~/wptagent-control/tmp
-argsToFile=$(sed 's/1 .*/1/' ~/wptagent-control/tmp)
-rm ~/wptagent-control/tmp
+argsToFile=$(echo $args | cut -d' ' -f1-3)
 echo "wpt $argsToFile" > ~/wptagent-control/status/$wptagent
 echo "1" > ~/wptagent-control/status/${wptagent}_ongoing
 
