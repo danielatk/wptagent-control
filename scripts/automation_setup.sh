@@ -20,6 +20,7 @@ echo "Setting up directory structure"
 mkdir ~/wptagent-control/wpt_data
 mkdir ~/wptagent-control/ndt_data
 mkdir ~/wptagent-control/other_data
+mkdir ~/wptagent-control/update
 mkdir ~/wptagent-control/status
 mkdir ~/wptagent-control/logs
 mkdir ~/wptagent-control/pids
