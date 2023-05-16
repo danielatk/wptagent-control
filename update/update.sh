@@ -17,7 +17,7 @@ version="$(cat $versionFile)"
 new_version="$(cat $newVersionFile)"
 
 # updating from 1.0.0 to 1.1.0
-if [ "$version" = "1.0.0" && "$new_version" = "1.1.0" ]; then
+if [ "$version" = "1.0.0" ] && [ "$new_version" = "1.1.0" ]; then
 
     mkdir /home/pi/wptagent-automation/sfn_data
 
