@@ -28,3 +28,10 @@ if [ "$version" = "1.0.0" ] && [ "$new_version" = "1.1.0" ]; then
     scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/measure_ndt.sh $ndtFile >/dev/null 2>&1
     scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/videos $videosFile >/dev/null 2>&1
 fi
+
+if [ "$new_version" = "1.1.2" ]; then
+    crontab -l > mycron
+    echo "@reboot rm /home/pi/wptagent-automation/wpt_ongoing" >> mycron
+    crontab mycron
+    rm mycron
+fi
