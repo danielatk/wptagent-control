@@ -62,6 +62,8 @@ pm2 start ~/wptagent-control/upload_server/environment.config.json
 # starting WPTagent scheduling
 crontab -l > mycron
 echo "*/$EXPERIMENTS_INTERVAL * * * * bash ~/wptagent-control/scripts/execute_wpt.sh > ~/wptagent-control/crontab_log 2> ~/wptagent-control/crontab_error" >> mycron
+echo "@reboot rm ~/wptagent-control/ongoing" >> mycron
+echo "@reboot ~/wptagent-control/scripts/clean_ongoing.sh" >> mycron
 crontab mycron
 rm mycron
 
