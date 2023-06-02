@@ -35,3 +35,11 @@ if [ "$new_version" = "1.1.2" ]; then
     crontab mycron
     rm mycron
 fi
+
+if [ "$new_version" = "1.1.3" ]; then
+    crontab -l > mycron
+    echo "@reboot /home/pi/wptagent-automation/scripts/check_ongoing.sh /home/pi/wptagent-automation/ongoing" >> mycron
+    echo "@reboot /home/pi/wptagent-automation/scripts/check_ongoing.sh /home/pi/wptagent-automation/wpt_ongoing" >> mycron
+    crontab mycron
+    rm mycron
+fi
