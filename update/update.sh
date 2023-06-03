@@ -8,6 +8,7 @@ ndtFile="/home/pi/wptagent-automation/scripts/ndt/measure_ndt.sh"
 videosFile="/home/pi/wptagent-automation/videos"
 versionFile="/home/pi/wptagent-automation/version"
 newVersionFile="/home/pi/wptagent-automation/new_version"
+checkOngoingFile="/home/pi/wptagent-automation/scripts/check_ongoing.sh"
 
 collectionServerUrl=$(cat /home/pi/wptagent-automation/collection_server_url)
 collectionServerUser=$(cat /home/pi/wptagent-automation/collection_server_user)
@@ -37,9 +38,19 @@ if [ "$new_version" = "1.1.2" ]; then
 fi
 
 if [ "$new_version" = "1.1.3" ]; then
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/check_ongoing.sh $setupReproductionFile >/dev/null 2>&1
+
     crontab -l > mycron
     echo "@reboot /home/pi/wptagent-automation/scripts/check_ongoing.sh /home/pi/wptagent-automation/ongoing" >> mycron
     echo "@reboot /home/pi/wptagent-automation/scripts/check_ongoing.sh /home/pi/wptagent-automation/wpt_ongoing" >> mycron
     crontab mycron
     rm mycron
+
+    if [ "$version" != "1.1.2" ]; then
+        # if it's not a direct update must do the 1.1.2 update too
+        crontab -l > mycron
+        echo "@reboot rm /home/pi/wptagent-automation/wpt_ongoing" >> mycron
+        crontab mycron
+        rm mycron
+    fi
 fi
