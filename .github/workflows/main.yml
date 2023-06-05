@@ -20,7 +20,7 @@ jobs:
 
       - name: Get Version
         run: |
-          VERSION=$(cat version)
+          VERSION=$(cat update/version)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Creating release notes
