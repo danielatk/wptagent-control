@@ -38,7 +38,7 @@ if [ "$new_version" = "1.1.2" ]; then
 fi
 
 if [ "$new_version" = "1.1.3" ]; then
-    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/check_ongoing.sh $setupReproductionFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/check_ongoing.sh $checkOngoingFile >/dev/null 2>&1
 
     crontab -l > mycron
     echo "@reboot /home/pi/wptagent-automation/scripts/check_ongoing.sh /home/pi/wptagent-automation/ongoing" >> mycron
@@ -53,4 +53,20 @@ if [ "$new_version" = "1.1.3" ]; then
         crontab mycron
         rm mycron
     fi
+fi
+
+if [ "$new_version" = "1.3.0" ]; then
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/check_ongoing.sh $checkOngoingFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/setup_reproduction.py $setupReproductionFile >/dev/null 2>&1
+
+    # remove the previous lines containing check_ongoing.sh and status_control_loop.sh
+    crontab -l | sed '/check_ongoing.sh/d' | crontab -
+    crontab -l | sed '/status_control_loop.sh/d' | crontab -
+
+    crontab -l > mycron
+    echo "@reboot bash /home/pi/wptagent-automation/scripts/check_ongoing.sh /home/pi/wptagent-automation/ongoing" >> mycron
+    echo "@reboot bash /home/pi/wptagent-automation/scripts/check_ongoing.sh /home/pi/wptagent-automation/wpt_ongoing" >> mycron
+    echo "@reboot bash /home/pi/wptagent-automation/scripts/status/status_control_loop.sh" >> mycron
+    crontab mycron
+    rm mycron
 fi
