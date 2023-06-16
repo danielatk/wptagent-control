@@ -85,3 +85,12 @@ if [ "$new_version" = "1.3.2" ]; then
         scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/check_update.sh $checkUpdateFile >/dev/null 2>&1
     fi
 fi
+
+if [ "$new_version" = "1.3.3" ]; then
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/execute.sh $executeFile >/dev/null 2>&1
+    if [ "$version" != "1.3.1" ] && [ "$version" != "1.3.2" ]; then
+        # if it's not a direct update must do the 1.3.1 update too
+        scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/check_ongoing.sh $checkOngoingFile >/dev/null 2>&1
+        scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/check_update.sh $checkUpdateFile >/dev/null 2>&1
+    fi
+fi
