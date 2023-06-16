@@ -6,6 +6,16 @@
 		"improvements": [],
 		"features": ["We added C", "Now D is possible"]
 	},
+	"1.3.3": {
+		"fixes": [
+			"We fixed the execute script"
+		],
+		"improvements": [
+			"We updated the update script"
+		],
+		"features": [
+		]
+	},
 	"1.3.2": {
 		"fixes": [
 		],
