@@ -10,6 +10,7 @@ versionFile="/home/pi/wptagent-automation/version"
 newVersionFile="/home/pi/wptagent-automation/new_version"
 checkOngoingFile="/home/pi/wptagent-automation/scripts/check_ongoing.sh"
 checkUpdateFile="/home/pi/wptagent-automation/scripts/check_update.sh"
+executeFile="/home/pi/wptagent-automation/scripts/execute.sh"
 
 collectionServerUrl=$(cat /home/pi/wptagent-automation/collection_server_url)
 collectionServerUser=$(cat /home/pi/wptagent-automation/collection_server_user)
@@ -75,4 +76,21 @@ fi
 if [ "$new_version" = "1.3.1" ]; then
     scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/check_ongoing.sh $checkOngoingFile >/dev/null 2>&1
     scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/check_update.sh $checkUpdateFile >/dev/null 2>&1
+fi
+
+if [ "$new_version" = "1.3.2" ]; then
+    if [ "$version" != "1.3.1" ]; then
+        # if it's not a direct update must do the 1.3.1 update too
+        scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/check_ongoing.sh $checkOngoingFile >/dev/null 2>&1
+        scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/check_update.sh $checkUpdateFile >/dev/null 2>&1
+    fi
+fi
+
+if [ "$new_version" = "1.3.3" ]; then
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/execute.sh $executeFile >/dev/null 2>&1
+    if [ "$version" != "1.3.1" ] && [ "$version" != "1.3.2" ]; then
+        # if it's not a direct update must do the 1.3.1 update too
+        scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/check_ongoing.sh $checkOngoingFile >/dev/null 2>&1
+        scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/check_update.sh $checkUpdateFile >/dev/null 2>&1
+    fi
 fi
