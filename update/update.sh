@@ -1,16 +1,27 @@
 #!/bin/bash
 
 setupReproductionFile="/home/pi/wptagent-automation/scripts/setup_reproduction.py"
-executeFile="/home/pi/wptagent-automation/scripts/execute.sh"
+setupNavigationFile="/home/pi/wptagent-automation/scripts/setup_navigation.py"
+setupWebpagetestFilesFile="/home/pi/wptagent-automation/scripts/setup_webpagetest_files.py"
 navigationWebdriverFile="/home/pi/wptagent-automation/scripts/webdriver/navigation_webdriver.py"
 reproductionWebdriverFile="/home/pi/wptagent-automation/scripts/webdriver/reproduction_webdriver.py"
+reproductionPuppeteerFile="/home/pi/wptagent-automation/scripts/puppeteer/puppeteer_navigation/reproduction_puppeteer.js"
+navigationPuppeteerFile="/home/pi/wptagent-automation/scripts/puppeteer/puppeteer_navigation/navigation_puppeteer.js"
+executeFile="/home/pi/wptagent-automation/scripts/execute.sh"
 ndtFile="/home/pi/wptagent-automation/scripts/ndt/measure_ndt.sh"
 videosFile="/home/pi/wptagent-automation/videos"
 versionFile="/home/pi/wptagent-automation/version"
 newVersionFile="/home/pi/wptagent-automation/new_version"
 checkOngoingFile="/home/pi/wptagent-automation/scripts/check_ongoing.sh"
 checkUpdateFile="/home/pi/wptagent-automation/scripts/check_update.sh"
-executeFile="/home/pi/wptagent-automation/scripts/execute.sh"
+adblockFile="/home/pi/wptagent-automation/extensions/adblock.crx"
+statusControlFile="/home/pi/wptagent-automation/scripts/status/status_control.sh"
+statusControlLoopFile="/home/pi/wptagent-automation/scripts/status/status_control_loop.sh"
+updateStatusFile="/home/pi/wptagent-automation/scripts/status/update_status.py"
+togglePuppeteerFile="/home/pi/wptagent-automation/scripts/toggle_puppeteer.py"
+top100File="/home/pi/wptagent-automation/top_100_brasil.csv"
+navigationListFile="/home/pi/wptagent-automation/navigation_list.csv"
+automationSetupFile="/home/pi/wptagent-automation/scripts/automation_setup.sh"
 
 collectionServerUrl=$(cat /home/pi/wptagent-automation/collection_server_url)
 collectionServerUser=$(cat /home/pi/wptagent-automation/collection_server_user)
@@ -96,10 +107,46 @@ if [ "$new_version" = "1.3.3" ]; then
 fi
 
 if [ "$new_version" = "1.4.0" ]; then
-scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/reproduction_webdriver.py $reproductionWebdriverFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/reproduction_webdriver.py $reproductionWebdriverFile >/dev/null 2>&1
     if [ "$version" != "1.3.1" ] || [ "$version" != "1.3.2" ] || [ "$version" != "1.3.3" ]; then
         scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/execute.sh $executeFile >/dev/null 2>&1
         scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/check_ongoing.sh $checkOngoingFile >/dev/null 2>&1
         scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/check_update.sh $checkUpdateFile >/dev/null 2>&1
     fi
+fi
+
+if [ "$new_version" = "1.5.0" ]; then
+    if [ -f $adblockFile ]; then
+        rm $adblockFile
+    fi
+    if [ -f $reproductionPuppeteerFile ]; then
+        rm $reproductionPuppeteerFile
+    fi
+    if [ -f $statusControlFile ]; then
+        rm $statusControlFile
+    fi
+    if [ -f $updateStatusFile ]; then
+        rm $updateStatusFile
+    fi
+    if [ -f $togglePuppeteerFile ]; then
+        rm $togglePuppeteerFile
+    fi
+    if [ -f $navigationWebdriverFile ]; then
+        rm $navigationWebdriverFile
+    fi
+    if [ -f $top100File ]; then
+        rm $top100File
+    fi
+
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/navigation_list.csv $navigationListFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/automation_setup.sh $automationSetupFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/check_update.sh $checkUpdateFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/execute.sh $executeFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/setup_navigation.py $setupNavigationFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/setup_reproduction.py $setupReproductionFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/setup_webpagetest_files.py $setupWebpagetestFilesFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/status_control_loop.sh $statusControlLoopFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/navigation_puppeteer.js $navigationPuppeteerFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/reproduction_webdriver.py $reproductionWebdriverFile >/dev/null 2>&1
+
 fi

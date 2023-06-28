@@ -4,10 +4,8 @@ import random
 import os
 
 
-videos_file = '~/wptagent-control/videos'
-top_20_videos_file = '~/wptagent-control/top_20_videos'
-wptagents_file = '~/wptagent-control/wptagents'
-local_wptagents_file = '~/wptagent-control/local_wptagents'
+videos_file = '/home/pi/wptagent-automation/videos'
+top_20_videos_file = '/home/pi/wptagent-automation/top_20_videos'
 
 def writeToItemsFile(item_list, items_file) :
     with open(items_file, 'w') as f :
@@ -50,24 +48,7 @@ def main():
 
     writeToItemsFile(video_list, top_20_videos_file)
 
-    # choose wptagent
-    if os.path.isfile(local_wptagents_file):
-        wptagents = readFromItemsFile(local_wptagents_file)
-    else:
-        wptagents = []
-
-    if (len(wptagents) == 0) :
-        # reset wptagent list
-        with open(wptagents_file, 'r') as f :
-            wptagents = f.readlines()
-            wptagents = [wptagent.rstrip() for wptagent in wptagents]
-        writeToItemsFile(wptagents, local_wptagents_file)
-
-    wptagent, wptagents = chooseAtRandom(wptagents)
-
-    writeToItemsFile(wptagents, local_wptagents_file)
-
-    print('www.youtube.com/watch?v={} {}'.format(video, wptagent))
+    print('http://www.youtube.com/watch?v={}'.format(video))
 
 
 if __name__ == "__main__":
