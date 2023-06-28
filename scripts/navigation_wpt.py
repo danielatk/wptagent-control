@@ -16,14 +16,12 @@ arquivo_wptserver = '~/wptagent-control/wptserver_url'
 def main():
     args = sys.argv
 
-    if (len(args) != 5) :
-        print('inform url, adblock use (True or False), resolution type (1 or 2) and wptagent mac')
+    if (len(args) != 3) :
+        print('inform url and wptagent mac')
         return
 
     # first argument is the url to be navigated to
-    # second argument is if adblock should be used
-    # third argument is the viewport resolution (1 or 2)
-    # fourth argument is the target wptagent mac
+    # second argument is the target wptagent mac
 
     with open(arquivo_wptserver) as file:
         wptserver = file.readline().strip()
@@ -55,11 +53,11 @@ def main():
 
     sel = Select(driver.find_element('id', 'location'))
     try:
-        sel.select_by_visible_text(args[4])
+        sel.select_by_visible_text(args[2])
     except NoSuchElementException:
         driver.quit()
         with open(arquivo_log, 'a') as file :
-            file.write("{} | navigation WPT -> wptagent {} not found\n".format(int(time.time()), args[4]))
+            file.write("{} | navigation WPT -> wptagent {} not found\n".format(int(time.time()), args[2]))
             file.write("--------------------\n")
         return
 
@@ -131,26 +129,18 @@ def main():
         index = args[1].find('watch?v=')
         domain = args[1][index+8:]
 
-    filename = '~/wptagent-control/wpt_data/{}_{}_{}_wpt.json'.format(domain, args[4], timestamp)
+    filename = '~/wptagent-control/wpt_data/{}_{}_{}_wpt.json'.format(domain, args[2], timestamp)
 
     json_result = r.json()
-
-    json_result['resolution_type'] = int(args[3])
-    json_result['video_capture'] = 'false'
-    json_result['adblock'] = 'true' if args[2] == 'True' else 'false'
 
     with open(filename, 'w') as jsonfile:
         jsonfile.write(json.dumps(json_result))
 
     r = requests.get('{}/export.php?bodies=1&pretty=1&test={}'.format(wptserver, run_id))
 
-    filename = '/home/localuser/wptagent-control/wpt_data/{}_{}_{}_har.json'.format(domain, args[4], timestamp)
+    filename = '/home/localuser/wptagent-control/wpt_data/{}_{}_{}_har.json'.format(domain, args[2], timestamp)
 
     json_result = r.json()
-
-    json_result['resolution_type'] = int(args[3])
-    json_result['video_capture'] = 'false'
-    json_result['adblock'] = 'true' if args[2] == 'True' else 'false'
 
     with open(filename, 'w') as jsonfile:
         jsonfile.write(json.dumps(json_result))

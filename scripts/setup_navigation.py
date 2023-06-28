@@ -5,8 +5,8 @@ import pandas as pd
 import os
 
 
-top_100_brasil = '~/wptagent-control/top_100_brasil.csv'
-top_100 = '~/wptagent-control/top-100'
+navigation_list = '~/wptagent-control/navigation_list.csv'
+navigation_sample_list = '~/wptagent-control/navigation_sample_list'
 wptagents_file = '~/wptagent-control/wptagents'
 local_wptagents_file = '~/wptagent-control/local_wptagents'
 
@@ -35,31 +35,21 @@ def chooseAtRandom(item_list) :
 
 
 def main():
-    # uso ou não de adblock
-    adblock_usado = False
-    if random.random() < 0.5 :
-        adblock_usado = True
-
-    res_type = 1
-    if random.random() >= 0.5 :
-        res_type = 2
-
     # choose domain to perform experiment
-    if os.path.isfile(top_100):
-        domain_list = readFromItemsFile(top_100)
+    if os.path.isfile(navigation_sample_list):
+        domain_list = readFromItemsFile(navigation_sample_list)
     else:
         domain_list = []
 
     if (len(domain_list) == 0) :
-        # reset top 100 list
-        df = pd.read_csv(top_100_brasil)
-        df_top_100 = df[:100]
-        domain_list = df_top_100['Domínio'].tolist()
-        writeToItemsFile(domain_list, top_100)
+        # reset navigation list
+        df = pd.read_csv(navigation_list)
+        domain_list = df['Domínio'].tolist()
+        writeToItemsFile(domain_list, navigation_sample_list)
 
     domain, domain_list = chooseAtRandom(domain_list)
 
-    writeToItemsFile(domain_list, top_100)
+    writeToItemsFile(domain_list, navigation_sample_list)
 
     # choose wptagent
     if os.path.isfile(local_wptagents_file):
@@ -78,7 +68,7 @@ def main():
 
     writeToItemsFile(wptagents, local_wptagents_file)
 
-    print('{} {} {} {}'.format(domain, adblock_usado, res_type, wptagent))
+    print('{} {}'.format(domain, wptagent))
 
 
 if __name__ == "__main__":
