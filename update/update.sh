@@ -22,6 +22,7 @@ togglePuppeteerFile="/home/pi/wptagent-automation/scripts/toggle_puppeteer.py"
 top100File="/home/pi/wptagent-automation/top_100_brasil.csv"
 navigationListFile="/home/pi/wptagent-automation/navigation_list.csv"
 automationSetupFile="/home/pi/wptagent-automation/scripts/automation_setup.sh"
+backgroundScriptFile="/home/pi/wptagent-automation/extensions/ATF-chrome-plugin/background.js"
 
 collectionServerUrl=$(cat /home/pi/wptagent-automation/collection_server_url)
 collectionServerUser=$(cat /home/pi/wptagent-automation/collection_server_user)
@@ -148,5 +149,46 @@ if [ "$new_version" = "1.5.0" ]; then
     scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/status_control_loop.sh $statusControlLoopFile >/dev/null 2>&1
     scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/navigation_puppeteer.js $navigationPuppeteerFile >/dev/null 2>&1
     scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/reproduction_webdriver.py $reproductionWebdriverFile >/dev/null 2>&1
+
+fi
+
+if [ "$new_version" = "1.5.1" ]; then
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/background.js $backgroundScriptFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/navigation_puppeteer.js $navigationPuppeteerFile >/dev/null 2>&1
+
+    if [ "$version" != "1.5.0" ]
+        if [ -f $adblockFile ]; then
+            rm $adblockFile
+        fi
+        if [ -f $reproductionPuppeteerFile ]; then
+            rm $reproductionPuppeteerFile
+        fi
+        if [ -f $statusControlFile ]; then
+            rm $statusControlFile
+        fi
+        if [ -f $updateStatusFile ]; then
+            rm $updateStatusFile
+        fi
+        if [ -f $togglePuppeteerFile ]; then
+            rm $togglePuppeteerFile
+        fi
+        if [ -f $navigationWebdriverFile ]; then
+            rm $navigationWebdriverFile
+        fi
+        if [ -f $top100File ]; then
+            rm $top100File
+        fi
+
+        scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/navigation_list.csv $navigationListFile >/dev/null 2>&1
+        scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/automation_setup.sh $automationSetupFile >/dev/null 2>&1
+        scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/check_update.sh $checkUpdateFile >/dev/null 2>&1
+        scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/execute.sh $executeFile >/dev/null 2>&1
+        scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/setup_navigation.py $setupNavigationFile >/dev/null 2>&1
+        scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/setup_reproduction.py $setupReproductionFile >/dev/null 2>&1
+        scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/setup_webpagetest_files.py $setupWebpagetestFilesFile >/dev/null 2>&1
+        scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/status_control_loop.sh $statusControlLoopFile >/dev/null 2>&1
+        scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/navigation_puppeteer.js $navigationPuppeteerFile >/dev/null 2>&1
+        scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/reproduction_webdriver.py $reproductionWebdriverFile >/dev/null 2>&1
+    fi
 
 fi
