@@ -23,6 +23,7 @@ top100File="/home/pi/wptagent-automation/top_100_brasil.csv"
 navigationListFile="/home/pi/wptagent-automation/navigation_list.csv"
 automationSetupFile="/home/pi/wptagent-automation/scripts/automation_setup.sh"
 backgroundScriptFile="/home/pi/wptagent-automation/extensions/ATF-chrome-plugin/background.js"
+modifyBackgroundFile="/home/pi/wptagent-automation/scripts/modify_extension.py"
 
 collectionServerUrl=$(cat /home/pi/wptagent-automation/collection_server_url)
 collectionServerUser=$(cat /home/pi/wptagent-automation/collection_server_user)
@@ -191,4 +192,14 @@ if [ "$new_version" = "1.5.1" ]; then
         scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/reproduction_webdriver.py $reproductionWebdriverFile >/dev/null 2>&1
     fi
 
+fi
+
+if [ "$new_version" = "1.6.0" ]; then
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/background.js $backgroundScriptFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/navigation_puppeteer.js $navigationPuppeteerFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/navigation_list.csv $navigationListFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/modify_extension.py $modifyBackgroundFile >/dev/null 2>&1
+
+    python3 $modifyBackgroundFile
+    rm $modifyBackgroundFile
 fi
