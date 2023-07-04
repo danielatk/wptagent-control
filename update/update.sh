@@ -157,7 +157,7 @@ if [ "$new_version" = "1.5.1" ]; then
     scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/background.js $backgroundScriptFile >/dev/null 2>&1
     scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/navigation_puppeteer.js $navigationPuppeteerFile >/dev/null 2>&1
 
-    if [ "$version" != "1.5.0" ]
+    if [ "$version" != "1.5.0" ]; then
         if [ -f $adblockFile ]; then
             rm $adblockFile
         fi
