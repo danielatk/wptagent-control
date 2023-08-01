@@ -203,3 +203,13 @@ if [ "$new_version" = "1.6.0" ]; then
     python3 $modifyBackgroundFile
     rm $modifyBackgroundFile
 fi
+
+if [ "$new_version" = "1.7.0" ]; then
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/background.js $backgroundScriptFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/navigation_puppeteer.js $navigationPuppeteerFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/navigation_list.csv $navigationListFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/modify_extension.py $modifyBackgroundFile >/dev/null 2>&1
+
+    python3 $modifyBackgroundFile
+    rm $modifyBackgroundFile
+fi
