@@ -21,8 +21,10 @@ updateStatusFile="/home/pi/wptagent-automation/scripts/status/update_status.py"
 togglePuppeteerFile="/home/pi/wptagent-automation/scripts/toggle_puppeteer.py"
 top100File="/home/pi/wptagent-automation/top_100_brasil.csv"
 navigationListFile="/home/pi/wptagent-automation/navigation_list.csv"
+ndtListFile="/home/pi/wptagent-automation/lista_ufs"
 automationSetupFile="/home/pi/wptagent-automation/scripts/automation_setup.sh"
 backgroundScriptFile="/home/pi/wptagent-automation/extensions/ATF-chrome-plugin/background.js"
+indexScriptFile="/home/pi/wptagent-automation/extensions/ATF-chrome-plugin/atfindex.js"
 modifyBackgroundFile="/home/pi/wptagent-automation/scripts/modify_extension.py"
 
 collectionServerUrl=$(cat /home/pi/wptagent-automation/collection_server_url)
@@ -202,4 +204,11 @@ if [ "$new_version" = "1.6.0" ]; then
 
     python3 $modifyBackgroundFile
     rm $modifyBackgroundFile
+fi
+
+if [ "$new_version" = "1.8.0" ]; then
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/atfindex.js $indexScriptFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/navigation_puppeteer.js $navigationPuppeteerFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/lista_ufs $ndtListFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/check_update.sh $checkUpdateFile >/dev/null 2>&1
 fi
