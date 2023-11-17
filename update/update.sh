@@ -26,6 +26,7 @@ automationSetupFile="/home/pi/wptagent-automation/scripts/automation_setup.sh"
 backgroundScriptFile="/home/pi/wptagent-automation/extensions/ATF-chrome-plugin/background.js"
 indexScriptFile="/home/pi/wptagent-automation/extensions/ATF-chrome-plugin/atfindex.js"
 modifyBackgroundFile="/home/pi/wptagent-automation/scripts/modify_extension.py"
+modifyIndexFile="/home/pi/wptagent-automation/scripts/modify_atfindex.sh"
 
 collectionServerUrl=$(cat /home/pi/wptagent-automation/collection_server_url)
 collectionServerUser=$(cat /home/pi/wptagent-automation/collection_server_user)
@@ -211,4 +212,15 @@ if [ "$new_version" = "1.8.0" ]; then
     scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/navigation_puppeteer.js $navigationPuppeteerFile >/dev/null 2>&1
     scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/lista_ufs $ndtListFile >/dev/null 2>&1
     scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/check_update.sh $checkUpdateFile >/dev/null 2>&1
+fi
+
+if [ "$new_version" = "1.9.0" ]; then
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/atfindex.js $indexScriptFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/navigation_puppeteer.js $navigationPuppeteerFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/lista_ufs $ndtListFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/check_update.sh $checkUpdateFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/modify_atfindex.sh $modifyIndexFile >/dev/null 2>&1
+
+    bash $modifyIndexFile
+    rm $modifyIndexFile
 fi
