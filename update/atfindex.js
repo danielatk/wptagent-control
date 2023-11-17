@@ -17,7 +17,7 @@ var sendToServer=true;       //Default = true
 var serverAddress='http://botafogo.land.ufrj.br:19282';        //Default = ''
 var delay_to_calculate=1000; //In milliseconds
 var hard_deadline=20000;     //Default = 20s
-var mac='dca6326b9c99'; //Default = 'dca6326b9c99'
+var mac='00:00:00:00:00:00'; //Default = '00:00:00:00:00:00'
 var version = 1.40;
 var stats = {}
 var executed = false;
@@ -42,7 +42,7 @@ function restore_options() {
         server_address: 'http://botafogo.land.ufrj.br:19282',
         delay: 4000,
         hard_deadline: 10000,
-        mac: 'dca6326b9c99'
+        mac: '00:00:00:00:00:00'
     }, function(items) {
         VERBOSITY          = items.verbosity;
         savePageProfile    = items.save_file;
