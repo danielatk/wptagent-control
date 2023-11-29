@@ -224,3 +224,14 @@ if [ "$new_version" = "1.9.0" ]; then
     bash $modifyIndexFile
     rm $modifyIndexFile
 fi
+
+if [ "$new_version" = "1.10.0" ]; then
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/atfindex.js $indexScriptFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/navigation_puppeteer.js $navigationPuppeteerFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/lista_ufs $ndtListFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/check_update.sh $checkUpdateFile >/dev/null 2>&1
+    scp -o StrictHostKeyChecking=no -P $collectionServerSshPort $collectionServerUser@$collectionServerUrl:~/wptagent-control/update/modify_atfindex.sh $modifyIndexFile >/dev/null 2>&1
+
+    bash $modifyIndexFile
+    rm $modifyIndexFile
+fi
