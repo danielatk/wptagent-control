@@ -322,7 +322,7 @@ function calculateATF(){
         suffix = 'puppeteer';
     }
 
-    var filename  = ""+pageurl+"_"+mac+"_"+Date.now()+"_"+suffix+"_extended.json";
+    var filename  = ""+pageurl+"_"+mac+"_"+Date.now()+"_"+suffix+"_scroll.json";
 
     var obj = {}
     obj[pageurl] = stats;
